@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For you Duaa</title>
+    <style>
+        body {
+            margin: 0; padding: 0;
+            background-color: #050000;
+            color: #ffb3c6;
+            font-family: 'Georgia', serif;
+            overflow: hidden;
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; flex-direction: column;
+        }
+
+        /* إضافة تأثير الخطوط السينمائية من الفيديو */
+        body::before {
+            content: " "; display: block; position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%);
+            z-index: 200; background-size: 100% 4px;
+            pointer-events: none; opacity: 0.4;
+        }
+
+        .center-heart {
+            font-size: 100px;
+            color: #ff0040;
+            text-shadow: 0 0 20px #ff0040, 0 0 40px #ff0040;
+            animation: beat 1s infinite alternate;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        @keyframes beat {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.15); }
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 24px;
+            text-align: center;
+            letter-spacing: 2px;
+            z-index: 10;
+            text-shadow: 0 0 10px #ffb3c6;
+        }
+
+        .particle {
+            position: absolute; bottom: -10%;
+            color: #ff4d6d; font-size: 20px;
+            animation: floatUp 10s linear infinite; opacity: 0.6;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+        }
+
+        #youtube-player { display: none; }
+    </style>
+</head>
+<body>
+
+    <div id="youtube-player"></div>
+
+    <div class="center-heart" id="mainHeart">❤️</div>
+    
+    <div class="message" id="mainText">Happy Birthday Duaa!</div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <script>
+        let player;
+        // وضعنا الرمز الذي اخترته في الكود
+        const youtubeId = 'iKl4MGkwLy0'; 
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-player', {
+                height: '0', width: '0',
+                videoId: youtubeId,
+                playerVars: { 'autoplay': 0, 'controls': 0 }
+            });
+        }
+
+        const heart = document.getElementById('mainHeart');
+        const mainText = document.getElementById('mainText');
+
+        const messages = [
+            "Happy early birthday Day gift",
+            "I hope you like it...",
+            "And I know you will..",
+            "Good luck Duaa! ❤️"
+        ];
+        let messageIndex = 0;
+
+        heart.addEventListener('click', () => {
+            // تشغيل الموسيقى عند الضغط
+            if (player && player.playVideo) {
+                player.playVideo();
+            }
+
+            messageIndex = (messageIndex + 1) % messages.length;
+            mainText.innerText = messages[messageIndex];
+        });
+
+        function createParticles() {
+            for (let i = 0; i < 30; i++) {
+                let particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.innerText = '❤️';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                particle.style.animationDuration = (Math.random() * 10 + 5) + 's';
+                document.body.appendChild(particle);
+            }
+        }
+        createParticles();
+    </script>
+</body>
+</html>
